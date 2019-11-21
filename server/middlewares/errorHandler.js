@@ -9,6 +9,8 @@ module.exports = (err, req, res, next) => {
         res.status(400).json(errors)
     } else if (err.name === 'CastError') {
         res.status(404).json({ message: 'We couldn\'t find what you\'re looking for' })
+    } else if (err.code === 11000) {
+        res.status(400).json({ message: 'email already exist' })
     }
     console.log(err)
 }
