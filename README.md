@@ -10,10 +10,10 @@ Make sure you have node.js and redis installed in your computer,and then run thi
 
 ---
 ## Link Demo
-#### [Demo]()
+#### [Demo](http://hacktivoverflow.itsjoel.site/)
 
 
-### Base url : http://localhost:3000
+### Base url : http://server-overflow.itsjoel.site
 ---
 
 #### User
