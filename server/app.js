@@ -15,8 +15,8 @@ app.use(cors())
 mongoose()
 
 app.use('/', routes)
-app.use('/kue', kue.app)
 app.use(errorHandler)
+app.use('/kue', kue.app)
 
 
 app.listen(PORT, () => console.log(`Server connected to port ${PORT}`))

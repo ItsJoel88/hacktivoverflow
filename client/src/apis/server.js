@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 let server = axios.create({
-    baseURL: 'http://localhost:3000'
+    baseURL: 'http://server-overflow.itsjoel.site/'
 })
 
 export default server

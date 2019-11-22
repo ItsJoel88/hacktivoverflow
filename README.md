@@ -10,17 +10,17 @@ Make sure you have node.js and redis installed in your computer,and then run thi
 
 ---
 ## Link Demo
-#### [Demo](http://mini-wp-client.itsjoel.site/)
+#### [Demo]()
 
 
-### Base url : http://mini-wp-server.itsjoel.site
+### Base url : http://localhost:3000
 ---
 
 #### User
 
 | URL | Method | Headers | Body | Success Status | Error Status |
 | --- | ------ | ------- | ---- | -------------- | ------------ |
-| /login | POST | none | email(String) , password(string) | 200 | 404,500 |
+| /login | POST | none | email(String) , password(string) | 200 | 400,500 |
 | /register | POST | none | name(string) , email(string) , password(string) | 201 | 400,500 |
 ##### Login
 * URL
@@ -41,7 +41,7 @@ Make sure you have node.js and redis installed in your computer,and then run thi
  token: 'eyJhbGciOiJIUzabcdefghijklmnopqrstuvwxyz'
  ```
  * Error Response
-  Status : 404
+  Status : 400
   content : 
 ```
 {
@@ -61,18 +61,18 @@ Make sure you have node.js and redis installed in your computer,and then run thi
  Required : 
    * email=[String]
    * password=[string]
+   * name=[string]
 * Success Response 
  Status : 201
  Content :
  ```
- {
+{
     "user": {
-        "full_name": "hello",
-        "_id": "5dc82ef4cb35b84d6bf79583",
-        "email": "hello@mail.com",
-        "password": "<hashed password>",
-        "createdAt": "2019-11-10T15:38:29.124Z",
-        "updatedAt": "2019-11-10T15:38:29.124Z"
+        "_id": "5dd6bdda79077a2795e46fcc",
+        "name": "user1",
+        "email": "user1@mail.com",
+        "password": "$2a$10$Hl/dqwfku8ErpMRdu0/3tOkva460PMM8DLHC1.8a0PVhrmwib7cda",
+        "__v": 0
     }
 }
  ```
@@ -81,7 +81,7 @@ Make sure you have node.js and redis installed in your computer,and then run thi
   content : 
 ```
 {
-    "message": "Please make sure all required fields are filled"
+    "message": "email already exist"
 }
 ```
 ---
@@ -89,22 +89,107 @@ Make sure you have node.js and redis installed in your computer,and then run thi
 
 | URL | Method | Headers | Body | Success Status | Error Status |
 | --- | ------ | ------- | ---- | -------------- | ------------ |
-| /articles | GET | none | none | 200 | 403,500 |
-| /articles/:id | GET | none | title(string) , content(string) , image(file) | 201 | 403,400,500 |
-| /articles/users | POST | none | none | 200 | 403,500 |
-| /articles/ | POST | token | title(string) , content(string) , image(file) , status(string) | 200 | 403,401,400,500 |
+| /articles | GET | none | none | 200 | 500 |
+| /articles/:id | GET | none | none | 200 | 404,500 |
+| /articles/users | POST | none | none | 200 | 404,500 |
+| /articles/ | POST | token | title(string) , description(string) | 201 | 403,400,500 |
 | /articles/:id | PUT | token | none | 200 | 403,404,500 |
 | /articles/upvote/:id | PATCH | token | none | 200 | 403,404,500 |
 | /articles/downvote/:id | PATCH | token | none | 200 | 403,404,500 |
 | /articles/answer/:id | PATCH | token | none | 200 | 403,404,500 |
 | /articles/:id | DELETE | token | none | 200 | 403,404,500 |
-##### Get all my article
+##### Get all my question
 * URL
 
-  (base url)/article/user
+  (base url)/articles
 
 * Method
  GET
+* URL Params
+  * query: date
+    * options: ['newest' & '']
+* Data Params
+ none
+* Headers 
+ none
+* Success Response
+ Status : 200
+ content: 
+```
+[
+    {
+        "answered": false,
+        "upVote": [],
+        "downVote": [],
+        "_id": "5dd667c0fca39a311efaf2f5",
+        "user": {
+            "_id": "5dd40d0611fb9b5230f6c1e7",
+            "name": "admin"
+        },
+        "title": "elbfqobgqipebgqwlkfnqfbqp",
+        "description": "<p>eljq vlqebveq</p>",
+        "createdAt": "2019-11-21T10:32:32.378Z",
+        "updatedAt": "2019-11-21T10:32:32.378Z",
+        "__v": 0
+    }
+]
+```
+---
+##### Get one question
+* URL
+
+  (base url)/articles/:id
+
+* Method
+ POST
+* URL Params
+ none
+* Data Params
+ none
+* Headers 
+ none
+* Success Response
+ Status : 200
+ content: 
+```
+{
+    "article": {
+        "answered": false,
+        "upVote": [],
+        "downVote": [],
+        "_id": "5dd667c0fca39a311efaf2f5",
+        "user": {
+            "_id": "5dd40d0611fb9b5230f6c1e7",
+            "name": "admin",
+            "email": "admin@mail.com",
+            "password": "$2a$10$dq3W2.kYmRFMPVfSWoTXLOMN13Lc3zeqdlhQXc12JvoXXvMuOdZy2",
+            "__v": 0
+        },
+        "title": "elbfqobgqipebgqwlkfnqfbqp",
+        "description": "<p>eljq vlqebveq</p>",
+        "createdAt": "2019-11-21T10:32:32.378Z",
+        "updatedAt": "2019-11-21T10:32:32.378Z",
+        "__v": 0
+    },
+    "point": 0
+}
+```
+* Error Response
+ Status : 404
+ content : 
+```
+{
+    "message": "Article not found"
+}
+```
+---
+##### Create question
+* URL
+
+  (base url)/articles/
+
+* Method
+ POST
 * URL Params
  none
 * Data Params
@@ -115,67 +200,18 @@ Make sure you have node.js and redis installed in your computer,and then run thi
  Status : 200
  content: 
 ```
-[
-    {
-        "created_at": "2019-11-10",
-        "featured_image": "<image url>",
-        "status": "Draft",
-        "_id": "5dc7f919258e6a284fc2c697",
-        "title": "lagii",
-        "content": "lagii2",
-        "author": {
-            "full_name": "bella",
-            "_id": "5dc7f8e3258e6a284fc2c696",
-            "email": "bella@mail.com",
-            "password": "<hashed password>",
-            "createdAt": "2019-11-10T11:47:48.037Z",
-            "updatedAt": "2019-11-10T11:47:48.037Z"
-        },
-        "createdAt": "2019-11-10T11:48:41.733Z",
-        "updatedAt": "2019-11-10T11:48:41.733Z"
-    }
-]
-```
-* Error Response
- Status : 403
- content : 
-```
-{
-    "message": "Sorry this site is forbidden for you"
-}
-```
----
-##### Create new article
-* URL
-
-  (base url)/article/user
-
-* Method
- POST
-* URL Params
- none
-* Data Params
- Required : 
-  * title=[string]
-  * content=[string]
-  * Optional : image=[file]
-* Headers 
- token(jwt token)
-* Success Response
- Status : 201
- content: 
-```
 {
     "article": {
-        "created_at": "2019-11-10",
-        "featured_image": "<image url>",
-        "status": "Draft",
-        "_id": "5dc8330acb35b84d6bf79587",
-        "title": "lagii",
-        "content": "lagii2",
-        "author": "5dc7f8e3258e6a284fc2c696",
-        "createdAt": "2019-11-10T15:55:54.085Z",
-        "updatedAt": "2019-11-10T15:55:54.085Z"
+        "answered": false,
+        "upVote": [],
+        "downVote": [],
+        "_id": "5dd6c33279077a2795e46fcd",
+        "user": "5dd40d0611fb9b5230f6c1e7",
+        "title": "Split an array without split method",
+        "description": "How to split an array in javascript without split method ? Thanks in advance",
+        "createdAt": "2019-11-21T17:02:42.516Z",
+        "updatedAt": "2019-11-21T17:02:42.516Z",
+        "__v": 0
     }
 }
 ```
@@ -183,18 +219,18 @@ Make sure you have node.js and redis installed in your computer,and then run thi
  Status : 400
  content : 
 ```
-{
-    "message": "Please make sure all required fields are filled"
-}
+[
+    "We need your description about the article"
+]
 ```
 ---
-##### Get all published article
+##### Fetch user's questions
 * URL
 
-  (base url)/article
+  (base url)/articles/user
 
 * Method
- GET
+ POST
 * URL Params
  none
 * Data Params
@@ -207,89 +243,79 @@ Make sure you have node.js and redis installed in your computer,and then run thi
 ```
 [
     {
-        "created_at": "2019-11-10",
-        "featured_image": "<image url>",
-        "status": "Published",
-        "_id": "5dc7f919258e6a284fc2c697",
-        "title": "lagii",
-        "content": "lagii2",
-        "author": {
-            "full_name": "bella",
-            "_id": "5dc7f8e3258e6a284fc2c696",
-            "email": "bella@mail.com",
-            "password": "<hashed password>",
-            "createdAt": "2019-11-10T11:47:48.037Z",
-            "updatedAt": "2019-11-10T11:47:48.037Z"
+        "answered": false,
+        "upVote": [],
+        "downVote": [],
+        "_id": "5dd6c33279077a2795e46fcd",
+        "user": {
+            "_id": "5dd40d0611fb9b5230f6c1e7",
+            "name": "admin",
+            "email": "admin@mail.com",
+            "password": "$2a$10$dq3W2.kYmRFMPVfSWoTXLOMN13Lc3zeqdlhQXc12JvoXXvMuOdZy2",
+            "__v": 0
         },
-        "createdAt": "2019-11-10T11:48:41.733Z",
-        "updatedAt": "2019-11-10T11:48:41.733Z"
+        "title": "Split an array without split method",
+        "description": "How to split an array in javascript without split method ? Thanks in advance",
+        "createdAt": "2019-11-21T17:02:42.516Z",
+        "updatedAt": "2019-11-21T17:02:42.516Z",
+        "__v": 0
     }
 ]
+```
+* Error Response
+ Status : 401
+ content : 
+```
+{
+    "message": "Data not exists / You trying to access data that you don't have permission on"
+}
+```
+---
+##### upVote
+* URL
+  
+  (base url)/articles/upvote/:id
+
+* Method
+ patch
+* URL Params
+ id
+* Data Params
+ to=[string]
+* Headers 
+ token(jwt token)
+* Success Response
+ Status : 200
+ content: 
+```
+{
+    "article": {
+        "n": 1,
+        "nModified": 1,
+        "ok": 1
+    }
+}
 ```
 * Error Response
  Status : 403
  content : 
 ```
 {
-    "message": "Sorry this site is forbidden for you"
+    "message": "You need to login first"
 }
 ```
 ---
-##### Edit my article
-* URL
-
-  (base url)/article/user
-
-* Method
- PUT
-* URL Params
- Article id
-* Data Params
- title=[string]
- content=[string]
- image=[file]
- status=[string]
-  * enum: ['Published','Draft']
-* Headers 
- token(jwt token)
-* Success Response
- Status : 200
- content: 
-```
-{
-    "article": {
-        "created_at": "2019-11-10",
-        "featured_image": "<image url>",
-        "status": "Draft",
-        "_id": "5dc8330acb35b84d6bf79587",
-        "title": "lagii",
-        "content": "lagii2",
-        "author": "5dc7f8e3258e6a284fc2c696",
-        "createdAt": "2019-11-10T15:55:54.085Z",
-        "updatedAt": "2019-11-10T15:55:54.085Z"
-    }
-}
-```
-* Error Response
- Status : 401
- content : 
-```
-{
-    "message": "Data not exists / You trying to access data that you don't have permission on"
-}
-```
----
-##### Delete my article
+##### downVote
 * URL
   
-  (base url)/article/user
+  (base url)/articles/downvote/:id
 
 * Method
- Delete
+ post
 * URL Params
- Article id
+ id
 * Data Params
- none
+ to=[string]
 * Headers 
  token(jwt token)
 * Success Response
@@ -298,24 +324,18 @@ Make sure you have node.js and redis installed in your computer,and then run thi
 ```
 {
     "article": {
-        "created_at": "2019-11-10",
-        "featured_image": "<image url>",
-        "status": "Draft",
-        "_id": "5dc8330acb35b84d6bf79587",
-        "title": "lagii",
-        "content": "lagii2",
-        "author": "5dc7f8e3258e6a284fc2c696",
-        "createdAt": "2019-11-10T15:55:54.085Z",
-        "updatedAt": "2019-11-10T15:55:54.085Z"
+        "n": 1,
+        "nModified": 1,
+        "ok": 1
     }
 }
 ```
 * Error Response
- Status : 401
+ Status : 403
  content : 
 ```
 {
-    "message": "Data not exists / You trying to access data that you don't have permission on"
+    "message": "You need to login first"
 }
 ```
 ---
@@ -326,5 +346,71 @@ Make sure you have node.js and redis installed in your computer,and then run thi
 | --- | ------ | ------- | ---- | -------------- | ------------ |
 | /comments/:article | GET | none | none | 200 | 404,500 |
 | /comments/ | POST | token  | article(string) , description(string) | 201 | 400,500 |
-| /comments/:id | PUT | token | description(string) | 200 | 400,500 |
-| /comments/:id | DELETE | token | none | 200 | 400,500 |
+##### Get all comments
+* URL
+  
+  (base url)/comments/:article
+
+* Method
+ get
+* URL Params
+ article
+* Data Params
+ none
+* Headers 
+ token(jwt token)
+* Success Response
+ Status : 200
+ content: 
+```
+[]
+```
+* Error Response
+ Status : 404
+ content : 
+```
+{
+    "message": "Comment not found"
+}
+```
+---
+##### Create comments
+* URL
+  
+  (base url)/comments/
+
+* Method
+ post
+* URL Params
+ none
+* Data Params
+  * article=['string']
+  * description=['string']
+* Headers 
+ token(jwt token)
+* Success Response
+ Status : 200
+ content: 
+```
+{
+    "comment": {
+        "answer": false,
+        "_id": "5dd6c5dc79077a2795e46fcf",
+        "article": "5dd6c33279077a2795e46fcd",
+        "user": "5dd4a40ee004341346a6bdff",
+        "description": "you can do looping and then just push each item into another temporary array",
+        "createdAt": "2019-11-21T17:14:04.022Z",
+        "updatedAt": "2019-11-21T17:14:04.022Z",
+        "__v": 0
+    }
+}
+```
+* Error Response
+ Status : 400
+ content : 
+```
+[
+    "Path `article` is required."
+]
+```
+---

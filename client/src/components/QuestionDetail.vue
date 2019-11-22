@@ -57,7 +57,7 @@ export default {
   methods: {
     upvote(id, email) {
       if (localStorage.getItem("token")) {
-        this.$router.push("/");
+        this.$router.push("/article");
         this.$store.dispatch("UPVOTE", { id, email });
         this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
         console.log(id);
@@ -65,7 +65,7 @@ export default {
     },
     downvote(id) {
       if (localStorage.getItem("token")) {
-        this.$router.push("/");
+        this.$router.push("/article");
         this.$store.dispatch("DOWNVOTE", id);
         this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
         console.log(id);
