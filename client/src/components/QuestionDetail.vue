@@ -107,7 +107,10 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
+    if (this.$route.params.id) {
+      this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
+      this.$store.dispatch("FETCH_COMMENT", this.$route.params.id);
+    }
   }
 };
 </script>

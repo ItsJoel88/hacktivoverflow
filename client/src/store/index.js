@@ -146,7 +146,7 @@ export default new Vuex.Store({
           router.push(`/article/${payload}`);
           commit('FETCH_DETAIL', data)
           commit('SHOW_DETAIL', true)
-          dispatch('FETCH_COMMENT', payload)
+          // dispatch('FETCH_COMMENT', payload)
         })
         .catch(err => {
           console.log(err)

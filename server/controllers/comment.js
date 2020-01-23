@@ -25,6 +25,7 @@ class CommentController {
     }
 
     static getAllComment(req, res, next) {
+        console.log(req.params.article, 'ini adalah article id')
         Comment.find({ article: req.params.article })
             .populate('user', '_id name')
             .then(comments => {
