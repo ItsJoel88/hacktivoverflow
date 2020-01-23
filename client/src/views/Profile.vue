@@ -11,11 +11,11 @@
         <b-form-group class="mb-0" label="Name" label-for="input-formatter">
           <b-form-input id="input-formatter" disabled :value="dataUser.name"></b-form-input>
         </b-form-group>
-        <b-form-group class="mb-0" label="Email" label-for="input-formatter">
-          <b-form-input id="input-formatter" disabled :value="dataUser.email"></b-form-input>
+        <b-form-group class="mb-0" label="Email" label-for="input-formatter1">
+          <b-form-input id="input-formatter1" disabled :value="dataUser.email"></b-form-input>
         </b-form-group>
-        <b-form-group class="mb-0" label="Total Questions" label-for="input-formatter">
-          <b-form-input id="input-formatter" disabled :value="userQuestion.length"></b-form-input>
+        <b-form-group class="mb-0" label="Total Questions" label-for="input-formatter2">
+          <b-form-input id="input-formatter2" disabled :value="userQuestion.length"></b-form-input>
         </b-form-group>
       </div>
       <hr />

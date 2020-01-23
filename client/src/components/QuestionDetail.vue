@@ -58,16 +58,20 @@ export default {
     upvote(id, email) {
       if (localStorage.getItem("token")) {
         this.$router.push("/article");
+        this.$store.commit("SHOW_DETAIL", false);
         this.$store.dispatch("UPVOTE", { id, email });
-        this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
+        this.$store.dispatch("FETCH_QUESTION", "");
+        // this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
         console.log(id);
       } else this.$awn.alert("You need to login first");
     },
     downvote(id) {
       if (localStorage.getItem("token")) {
         this.$router.push("/article");
+        this.$store.commit("SHOW_DETAIL", false);
         this.$store.dispatch("DOWNVOTE", id);
-        this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
+        this.$store.dispatch("FETCH_QUESTION", "");
+        // this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
         console.log(id);
       } else this.$awn.alert("You need to login first");
     },
@@ -103,7 +107,10 @@ export default {
     }
   },
   created() {
-    this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
+    if (this.$route.params.id) {
+      this.$store.dispatch("FETCH_DETAIL_QUESTION", this.$route.params.id);
+      this.$store.dispatch("FETCH_COMMENT", this.$route.params.id);
+    }
   }
 };
 </script>

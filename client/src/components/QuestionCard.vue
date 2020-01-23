@@ -36,6 +36,7 @@ export default {
     },
     goTo(id) {
       this.$store.dispatch("FETCH_DETAIL_QUESTION", id);
+      this.$store.dispatch("FETCH_COMMENT", id);
     }
   }
 };
